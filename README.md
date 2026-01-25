@@ -1,4 +1,4 @@
-# MachineLearning
+# MachineLearning - Grupparbete
 
 Projektet använder:
 - **pandas** – för att läsa och hantera CSV- och tabell-data

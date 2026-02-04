@@ -1,0 +1,89 @@
+Jättebra jobbat med notebooken! Den är välstrukturerad, pedagogisk och följer en logisk tråd från start till mål.
+Här kommer min genomgång med konkreta förslag för att göra den ännu tydligare och mer korrekt, utan att krångla till det.
+
+Övergripande intryck
+Struktur: Mycket bra. Ni följer stegen: Importera -> Datafördelning -> EDA -> Preprocessing -> Modeller -> Utvärdering.
+
+Markdown: Tydliga rubriker. Vissa texter kan vässas något för att låta mer "analytiska".
+
+Kod: Ser korrekt ut. Ni använder Pipeline och ColumnTransformer vilket är "best practice".
+------------------------------------------------
+Detaljerad genomgång (Steg för steg)
+1. Inledningen (Cell c2670e8d och f3c8db30)
+Texten är lite "pratig". Ni kan strama upp den för att låta mer professionella.
+
+Förslag: Byt ut "Det vi har börjat med är att vi har importerat..." mot:
+"Vi inleder med att importera nödvändiga bibliotek och läsa in datasetet.
+Datafilen är semikolon-separerad och innehåller 8000 rader utan saknade värden."
+
+Tips: Ni skriver "10 000 rader" i texten, men koden (df.shape) visar (8000, 10). Ändra texten till 8000 så det stämmer med verkligheten.
+------------------------------------------------
+2. Datafördelning (Cell 0b9ea70c)
+Bra förklaring av Train/Test split.
+
+Justering: Ni skriver "Vi delar upp datan i X och y...". Lägg gärna till en liten rad om varför ni sätter random_state=42.
+Exempel: "random_state=42 används för att säkerställa att uppdelningen blir exakt likadan varje gång vi kör koden,
+vilket gör resultaten reproducerbara."
+------------------------------------------------
+3. EDA (Cell de6de873 och framåt)
+Era observationer är klockrena!
+
+Histogrammet: Ni skriver "symmetriskt fördelade med en svag högerskevhet". Helt rätt.
+
+Boxplots: Bra analyser av hur priset varierar.
+
+Korrelationsmatrisen: Ni har kommenterat bort koden för heatmap.
+Om ni vill ha kvar den, se till att den fungerar (enklast genom att bara köra sns.heatmap på EDA_train_df.corr(numeric_only=True)).
+Annars, ta bort den utkommenterade koden så det ser städat ut.
+------------------------------------------------
+4. Feature Engineering & Pipeline (Cell d20e791f)
+Här händer magin.
+
+Bra: Ni skalar numeriska variabler och OneHot-kodar kategoriska.
+
+Tips: Lägg till en markdown-cell precis innan koden som förklarar varför ni gör detta.
+Exempeltext:
+*"4. Preprocessing
+För att modellerna ska kunna tolka datan behöver vi omvandla den:
+
+Numeriska variabler: Skalas med StandardScaler för att ge dem samma "vikt" i modellen (viktigt för Ridge/Lasso).
+
+Kategoriska variabler: Omvandlas till siffror med OneHotEncoder eftersom maskininlärningsmodeller inte kan läsa text
+(t.ex. 'BMW' eller 'Diesel')."*
+------------------------------------------------
+5. Modellträning (Cell 4f5b89a6)
+Ni definierar modellerna och hyperparametrarna snyggt.
+
+Kommentar: För LinearRegression har ni params: {} (tomt).
+Det är helt rätt, men ni kan lägga till en kommentar i koden: # Vanlig linjär regression har inga hyperparametrar att justera.
+
+Random Forest: Ni testar n_estimators och max_depth. Bra val!
+------------------------------------------------
+6. Resultat & Utvärdering (Cell 8bd4a0c8 och 18e7b95d)
+Här kommer det viktigaste – tolkningen.
+
+R2-värdet: Ni har extremt höga R2-värden (nära 1.0).
+
+Viktigt: Lägg till en text om detta under resultaten!
+
+Förslag: "Vi noterar att modellerna presterar extremt bra med R²-värden nära 1.0.
+Detta tyder på att datasetet sannolikt är syntetiskt genererat med tydliga linjära samband och
+saknar det 'brus' man normalt ser i verklig data."
+
+Tabellen: Jättebra att ni samlar resultaten i en DataFrame (results_df). Det gör det lättöverskådligt.
+------------------------------------------------
+7. Slutsats & Reflektion (Cell f7d2e0b6)
+Texten är bra och ärlig kring begränsningarna.
+
+Tillägg: Ni kan lägga till en rad om vad nästa steg hade varit om detta var ett "riktigt" jobb.
+Exempel: "I ett verkligt scenario hade vi velat undersöka feature importance mer noggrant för att
+se vilka specifika egenskaper (t.ex. vilket bilmärke) som driver priset mest."
+------------------------------------------------
+Sammanfattning av åtgärder (Checklista)
+Rätta siffran: Ändra "10 000 rader" till "8000 rader" i inledningen.
+
+Förtydliga Preprocessing: Lägg till en kort text om varför ni skalar och OneHot-kodar.
+
+Kommentera R2: Skriv en rad om att det perfekta resultatet beror på syntetisk data (så ingen tror att ni fuskat/räknat fel).
+
+Städa: Ta bort utkommenterad "skräpkod" (som den gamla heatmapen) om den inte används.
